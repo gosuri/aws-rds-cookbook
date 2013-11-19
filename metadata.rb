@@ -1,8 +1,7 @@
 name             'aws-rds'
-maintainer       'YOUR_NAME'
-maintainer_email 'YOUR_EMAIL'
+maintainer       'Greg Osuri'
+maintainer_email 'gosuri@gmail.com'
 license          'All rights reserved'
-description      'Installs/Configures aws-rds'
+description      'Provides libraries, resources and providers to configure and manage Amazon Relational Database Service (Amazon RDS) with the EC2 API'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          '0.1.0'
-

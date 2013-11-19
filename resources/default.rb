@@ -1,5 +1,5 @@
-actions :create, :create_if_missing
-default_action :create_if_missing
+actions :create
+default_action :create
 
 attribute :id                           , kind_of: String                 , name_attribute: true
 attribute :aws_access_key               , kind_of: String                 , required: true
@@ -15,7 +15,8 @@ attribute :db_instance_identifier       , kind_of: String
 attribute :db_name                      , kind_of: String
 attribute :db_parameter_group_name      , kind_of: String
 attribute :db_security_groups           , kind_of: Array
-attribute :engine                       , kind_of: String                 , required: true , default: 'MySql'
+attribute :engine                       , kind_of: String                 , required: true , default: 'postgres'
+attribute :db_subnet_group_name         , kind_of: String
 attribute :engine_version               , kind_of: Integer
 attribute :iops                         , kind_of: Integer
 attribute :license_model                , kind_of: String
@@ -26,4 +27,7 @@ attribute :option_group_name            , kind_of: String
 attribute :port                         , kind_of: Integer
 attribute :preferred_backup_window      , kind_of: String
 attribute :preferred_maintenance_window , kind_of: String
+attribute :publicly_accessible          , kind_of: [TrueClass,FalseClass] , default: false
 attribute :vpc_security_group_ids       , kind_of: Array
+
+attr_accessor :exists

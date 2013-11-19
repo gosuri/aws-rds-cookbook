@@ -5,11 +5,20 @@ def whyrun_supported?
 end
 
 action :create do
-  Chef::Log.info("--> DEBUG: #{new_resource.name}")
-  # do 
+  if @current_resource.exists
+    Chef::Log.info "#{@new_resource} already exists - nothing to do."
+    set_node_attrs
+  else
+    converge_by "Create #{@new_resource}" do
+      Chef::Log.info "Creating #{new_resource}. This could take upto 10 minutes"
+      create_instance(@new_resource.id)
+      Chef::Log.info "Created #{@new_resource}"
+      set_node_attrs
+    end
+  end
 end
 
-action :create_if_missing do
-  create_if_missing
+def load_current_resource
+  @current_resource = Chef::Resource::AwsRds.new(new_resource.id)
+  @current_resource.exists = instance.exists?
 end
-

@@ -1,1 +1,1 @@
-default[:aws_rds][:aws_sdk_version] = "1.11.1"
+default[:aws_sdk_version] = "1.11.1"

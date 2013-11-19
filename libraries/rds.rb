@@ -1,58 +1,81 @@
 module Overclock
   module Aws
     module RDS
+      SERIALIZE_ATTRS = [
+        :allocated_storage            ,
+        :auto_minor_version_upgrade   ,
+        :availability_zone            ,
+        :backup_retention_period      ,
+        :character_set_name           ,
+        :db_instance_class            ,
+        :db_instance_identifier       ,
+        :db_name                      ,
+        :db_parameter_group_name      ,
+        :db_security_groups           ,
+        :db_subnet_group_name         ,
+        :engine                       ,
+        :engine_version               ,
+        :iops                         ,
+        :license_model                ,
+        :master_user_password         ,
+        :master_username              ,
+        :multi_az                     ,
+        :option_group_name            ,
+        :port                         ,
+        :preferred_backup_window      ,
+        :preferred_maintenance_window ,
+        :publicly_accessible          ,
+        :vpc_security_group_ids
+      ]
 
-      def create_if_missing
-        if instance = rds.db_instances[new_resource.id]
-          if instance.exists?
-            node.override[:aws_rds][new_resource.id] = hash(rds.db_instances[new_resource.id])
-          else
-            create
-          end
-        end
+      DESERIALIZE_ATTRS = [
+        :allocated_storage            ,
+        :auto_minor_version_upgrade   ,
+        :backup_retention_period      ,
+        :character_set_name           ,
+        :db_instance_class            ,
+        :db_instance_identifier       ,
+        :db_name                      ,
+        :engine                       ,
+        :engine_version               ,
+        :iops                         ,
+        :license_model                ,
+        :master_username              ,
+        :multi_az                     ,
+        :preferred_backup_window      ,
+        :preferred_maintenance_window ,
+        :endpoint_address
+      ]
+
+      def instance(id = new_resource.id)
+        @instance ||= rds.db_instances[id]
       end
 
-      def create(nr = new_resource)
-        Chef::Log.info "creating AWS RDS instance with id: #{nr.id}. This could take a while."
-        if instance = rds.db_instances.create(nr.id, params)
-          while (instance.status != 'available') do
-            sleep 2
-          end
-          set_endpoint(instance.endpoint_address)
-        end
-        Chef::Log.info "created AWS RDS instance with id: #{nr.id}"
-      end
-
-      def rds(nr = new_resource)
+      def rds(key = new_resource.aws_access_key, secret = new_resource.aws_secret_access_key)
         begin 
           require 'aws-sdk'
         rescue LoadError
           Chef::Log.error("Missing gem 'aws-sdk'. Use the default aws-rds recipe to install it first.")
         end
-        @rds ||= AWS::RDS.new(access_key_id: nr.aws_access_key, secret_access_key: nr.aws_secret_access_key)
+        @rds ||= AWS::RDS.new(access_key_id: key, secret_access_key: secret)
       end
 
-      private
-
-      def new_instance?
-        begin
-          if instance = rds.db_instances[new_resource.id]
-            if instance.endpoint_address
-              false
-            end
+      def create_instance(id = new_resource.id)
+        if @instance = rds.db_instances.create(id, serialize_attrs)
+          while (instance.status != 'available') do
+            sleep 2
           end
-        rescue AWS::RDS::Errors::DBInstanceNotFound
-          return true
         end
       end
 
-      def set_endpoint(addr)
-        node.override[:endpoint_address] = addr
+      def set_node_attrs
+        node.override[:aws_rds][new_resource.id] = deserialize_attrs
       end
+private
 
-      def params(nr = new_resource)
+      def serialize_attrs
         result = {}
-        attrs.each do | key |
+        SERIALIZE_ATTRS.each do | key |
           if value = new_resource.send(key)
             result[key] = value
           end
@@ -60,42 +83,12 @@ module Overclock
         result
       end
 
-      def hash(instance)
+      def deserialize_attrs
         result = {}
-        s_attrs = attrs - [:availability_zone, :db_parameter_group_name, :db_security_groups, :master_user_password, :option_group_name, :port, :vpc_security_group_ids]
-        s_attrs += [:endpoint_address]
-        s_attrs.each do |attr|
+        DESERIALIZE_ATTRS.each do |attr|
           result[attr] = instance.send(attr)
         end
         result
-      end
-
-      def attrs
-        [
-          :allocated_storage            ,
-          :auto_minor_version_upgrade   ,
-          :availability_zone            ,
-          :backup_retention_period      ,
-          :availability_zone            ,
-          :character_set_name           ,
-          :db_instance_class            ,
-          :db_instance_identifier       ,
-          :db_name                      ,
-          :db_parameter_group_name      ,
-          :db_security_groups           ,
-          :engine                       ,
-          :engine_version               ,
-          :iops                         ,
-          :license_model                ,
-          :master_user_password         ,
-          :master_username              ,
-          :multi_az                     ,
-          :option_group_name            ,
-          :port                         ,
-          :preferred_backup_window      ,
-          :preferred_maintenance_window ,
-          :vpc_security_group_ids
-        ]
       end
     end
   end
