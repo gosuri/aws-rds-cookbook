@@ -1,4 +1,4 @@
-name             'aws-rds'
+name             'aws_rds'
 maintainer       'Greg Osuri'
 maintainer_email 'gosuri@gmail.com'
 license          'MIT'
