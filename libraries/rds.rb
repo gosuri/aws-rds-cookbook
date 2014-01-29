@@ -32,7 +32,7 @@ module Overclock
         :db_instance_class            ,
         :db_instance_identifier       ,
         :db_name                      ,
-        :db_parameter_group_name      ,
+        :db_subnet_group_name      ,
         :db_security_groups           ,
         :db_subnet_group_name         ,
         :engine                       ,
@@ -88,6 +88,10 @@ module Overclock
             sleep 2
           end
         end
+      end
+
+      def update_instance(id = new_resource.id)
+        # placeholder for update instance 
       end
 
       def set_node_attrs

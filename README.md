@@ -142,6 +142,7 @@ bundle install
 # License & Author
 
 Author:: Greg Osuri (<gosuri@gmail.com>)
+Author:: Florin STAN (<florin.stan@gmail.com>)
 
 Copyright (c) 2013 Greg Osuri 
 
