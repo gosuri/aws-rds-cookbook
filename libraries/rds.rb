@@ -47,6 +47,7 @@ module Overclock
         :preferred_backup_window      ,
         :preferred_maintenance_window ,
         :publicly_accessible          ,
+        :tags                         ,
         :vpc_security_group_ids
       ]
 
