@@ -28,6 +28,7 @@ attribute :port                         , kind_of: Integer
 attribute :preferred_backup_window      , kind_of: String
 attribute :preferred_maintenance_window , kind_of: String
 attribute :publicly_accessible          , kind_of: [TrueClass,FalseClass] , default: false
+attribute :tags                         , kind_of: Array
 attribute :vpc_security_group_ids       , kind_of: Array
 
 attr_accessor :exists
