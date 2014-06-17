@@ -7,7 +7,7 @@ attribute :aws_secret_access_key        , kind_of: String                 , requ
 attribute :allocated_storage            , kind_of: Integer                , required: true
 attribute :auto_minor_version_upgrade   , kind_of: [TrueClass,FalseClass] , default: true
 attribute :availability_zone            , kind_of: String
-attribute :region			, kind_of: String                 , default: 'us-east-1'
+attribute :region						, kind_of: String                 , default: 'us-east-1'
 attribute :backup_retention_period      , kind_of: Integer
 attribute :character_set_name           , kind_of: String
 attribute :db_instance_class            , kind_of: String                 , required: true
