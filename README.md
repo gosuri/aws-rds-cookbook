@@ -44,6 +44,7 @@ The `aws_rds` LWRP manages a RDS instance
 - - Default VPC: true
 - - VPC: false If no DB subnet group has been specified as part of the request and the PubliclyAccessible value has not been set, the DB instance will be publicly accessible. If a specific DB subnet group has been specified as part of the request and the PubliclyAccessible value has not been set, the DB instance will be private.
 - `vpc_security_group_ids`: (Array) A list of Ec2 Vpc Security Groups to associate with this DB Instance. Default: The default Ec2 Vpc Security Group for the DB Subnet group's Vpc.
+- `region`: (String) The EC2 Region that the database instance will be created in. Default is us-east-1.
 
 # Usage
 
