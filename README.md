@@ -50,7 +50,7 @@ The `aws_rds` LWRP manages a RDS instance
 In `metadata.rb` you should declare a dependency on this cookbook. For example:
 
 ```
-depends 'aws_rds'
+depends 'aws-rds'
 ```
 
 A recipe using this LWRP may look like this:
