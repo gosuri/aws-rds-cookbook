@@ -60,7 +60,6 @@ module Overclock
         :db_instance_class            ,
         :db_instance_identifier       ,
         :db_name                      ,
-        :db_parameter_group_name      ,
         :engine                       ,
         :engine_version               ,
         :iops                         ,
