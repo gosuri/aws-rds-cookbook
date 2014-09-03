@@ -17,7 +17,6 @@ attribute :db_parameter_group_name      , kind_of: String
 attribute :db_subnet_group_name         , kind_of: String
 attribute :db_security_groups           , kind_of: Array
 attribute :engine                       , kind_of: String                 , required: true , default: 'postgres'
-attribute :db_subnet_group_name         , kind_of: String
 attribute :engine_version               , kind_of: String
 attribute :iops                         , kind_of: Integer
 attribute :license_model                , kind_of: String
