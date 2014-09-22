@@ -7,3 +7,8 @@ long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          '1.3'
 recipe           "aws_rds", "installs the aws-sdk gem during compile time"
 attribute        'aws_sdk_version', description: "aws-sdk gem version", type: "string"
+
+
+depends 'apt'
+
+supports 'ubuntu'
