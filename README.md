@@ -50,7 +50,7 @@ The `aws_rds` LWRP manages a RDS instance
 In `metadata.rb` you should declare a dependency on this cookbook. For example:
 
 ```
-depends 'aws_rds'
+depends 'aws-rds'
 ```
 
 A recipe using this LWRP may look like this:
@@ -65,8 +65,11 @@ db_info = {
 # Creates an instance with id 'myappdb'
 
 aws_rds db_info[:name] do
-  aws_access_key        'YOUR_AWS_ACCESS_KEY'
-  aws_secret_access_key 'YOUR_AWS_SECRET'
+  # will use the iam role if available
+  # optionally place the keys
+  # see http://docs.aws.amazon.com/AWSSdkDocsRuby/latest/DeveloperGuide/ruby-dg-roles.html
+  # aws_access_key        'YOUR_AWS_ACCESS_KEY'
+  # aws_secret_access_key 'YOUR_AWS_SECRET'
   engine                'postgres'
   db_instance_class     'db.t1.micro'
   allocated_storage     5

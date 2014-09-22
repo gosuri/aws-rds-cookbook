@@ -60,7 +60,6 @@ module Overclock
         :db_instance_class            ,
         :db_instance_identifier       ,
         :db_name                      ,
-        :db_parameter_group_name      ,
         :engine                       ,
         :engine_version               ,
         :iops                         ,
@@ -76,7 +75,7 @@ module Overclock
         @instance ||= rds.db_instances[id]
       end
 
-      def rds(key = new_resource.aws_access_key, secret = new_resource.aws_secret_access_key, region = new_resource.region)
+      def rds(key = new_resource.aws_access_key, secret = new_resource.aws_secret_access_key)
         begin 
           require 'aws-sdk'
         rescue LoadError
@@ -88,7 +87,7 @@ module Overclock
       def create_instance(id = new_resource.id)
         if @instance = rds.db_instances.create(id, serialize_attrs)
           while (instance.status != 'available') do
-            sleep 2
+            sleep 1
           end
         end
       end
@@ -100,24 +99,34 @@ module Overclock
       def set_node_attrs
         node.override[:aws_rds][new_resource.id] = deserialize_attrs
       end
+
+      def region
+        new_resource.region || determine_region
+      end
+
 private
 
+      # Determine the current region or fail gracefully
+      def determine_region
+        `curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone | grep -Po "(us|sa|eu|ap)-(north|south)?(east|west)?-[0-9]+"`.strip
+      rescue
+        nil
+      end
+
       def serialize_attrs
-        result = {}
-        SERIALIZE_ATTRS.each do | key |
+        SERIALIZE_ATTRS.inject({}) do | result, key |
           if value = new_resource.send(key)
             result[key] = value
           end
+          result
         end
-        result
       end
 
       def deserialize_attrs
-        result = {}
-        DESERIALIZE_ATTRS.each do |attr|
+        DESERIALIZE_ATTRS.inject({}) do |result, attr|
           result[attr] = instance.send(attr)
+          result
         end
-        result
       end
     end
   end
