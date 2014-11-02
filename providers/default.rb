@@ -12,7 +12,7 @@ action :create do
     update_instance
   else
     converge_by "Create #{@new_resource}" do
-      Chef::Log.info "Creating #{new_resource}. This could take upto 10 minutes"
+      Chef::Log.info "Creating #{new_resource}. This could take up to 10 minutes"
       create_instance(@new_resource.id)
       Chef::Log.info "Created #{@new_resource}"
       set_node_attrs
