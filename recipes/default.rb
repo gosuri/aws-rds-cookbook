@@ -32,7 +32,7 @@ end.run_action(:run) if node['platform_family'] == "debian"
 node.set['build_essential']['compiletime'] = true
 include_recipe "build-essential"
 
-gem_package "aws-sdk" do
+gem_package "aws-sdk-v1" do
   version node[:aws_sdk_version]
   action :install
 end
