@@ -99,13 +99,13 @@ For a more detailed example. See https://github.com/gosuri/rails-app-cookbook fo
 
 # Attributes
 
-- aws_rds['aws_sdk_version']: `aws-sdk` RubyGem version. Default `1.11.1`
+- aws_rds['aws_sdk_version']: `aws-sdk-v1` RubyGem version. Default `1.53.0`
 
 # Recipes
 
 ## default.rb
 
-The default recipe installs the `aws-sdk` RubyGem, which this cookbook requires in order to work with the EC2 API. Make sure that the aws_rds recipe is in the node or role `run_list` before any resources from this cookbook are used.
+The default recipe installs the `aws-sdk-v1` RubyGem, which this cookbook requires in order to work with the EC2 API. Make sure that the aws_rds recipe is in the node or role `run_list` before any resources from this cookbook are used.
 
 ```
 "run_list": [

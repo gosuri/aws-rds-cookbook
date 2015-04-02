@@ -77,9 +77,9 @@ module Overclock
 
       def rds(key = new_resource.aws_access_key, secret = new_resource.aws_secret_access_key)
         begin 
-          require 'aws-sdk'
+          require 'aws-sdk-v1'
         rescue LoadError
-          Chef::Log.error("Missing gem 'aws-sdk'. Use the default aws-rds recipe to install it first.")
+          Chef::Log.error("Missing gem 'aws-sdk-v1'. Use the default aws-rds recipe to install it first.")
         end
         @rds ||= AWS::RDS.new(access_key_id: key, secret_access_key: secret, region: region)
       end
