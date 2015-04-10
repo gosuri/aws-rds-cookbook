@@ -76,7 +76,7 @@ module Overclock
       end
 
       def rds(key = new_resource.aws_access_key, secret = new_resource.aws_secret_access_key)
-        begin 
+        begin
           require 'aws-sdk'
         rescue LoadError
           Chef::Log.error("Missing gem 'aws-sdk'. Use the default aws-rds recipe to install it first.")
@@ -93,7 +93,7 @@ module Overclock
       end
 
       def update_instance(id = new_resource.id)
-        # placeholder for update instance 
+        # placeholder for update instance
       end
 
       def set_node_attrs
@@ -104,7 +104,7 @@ module Overclock
         new_resource.region || determine_region
       end
 
-private
+      private
 
       # Determine the current region or fail gracefully
       def determine_region

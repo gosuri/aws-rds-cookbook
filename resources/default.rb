@@ -2,12 +2,12 @@ actions :create
 default_action :create
 
 attribute :id                           , kind_of: String                 , name_attribute: true
-attribute :aws_access_key               , kind_of: String                 
-attribute :aws_secret_access_key        , kind_of: String                 
+attribute :aws_access_key               , kind_of: String
+attribute :aws_secret_access_key        , kind_of: String
 attribute :allocated_storage            , kind_of: Integer                , required: true
 attribute :auto_minor_version_upgrade   , kind_of: [TrueClass,FalseClass] , default: true
 attribute :availability_zone            , kind_of: String
-attribute :region                       , kind_of: String                 
+attribute :region                       , kind_of: String
 attribute :backup_retention_period      , kind_of: Integer
 attribute :character_set_name           , kind_of: String
 attribute :db_instance_class            , kind_of: String                 , required: true
