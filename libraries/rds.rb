@@ -92,6 +92,13 @@ module Overclock
         end
       end
 
+      def delete_instance(id = new_resource.id)
+        @instance ||= rds.db_instances[id]
+        if @instance
+          @instance.delete()
+        end
+      end
+
       def update_instance(id = new_resource.id)
         # placeholder for update instance
       end
@@ -110,7 +117,7 @@ module Overclock
       def determine_region
         `curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone | grep -Po "(us|sa|eu|ap)-(north|south)?(east|west)?-[0-9]+"`.strip
       rescue
-        nil
+        new_resource.region
       end
 
       def serialize_attrs
