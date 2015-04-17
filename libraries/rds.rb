@@ -20,6 +20,8 @@
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
+require 'date'
+
 module Overclock
   module Aws
     module RDS
@@ -92,10 +94,22 @@ module Overclock
         end
       end
 
-      def delete_instance(id = new_resource.id)
+      def delete_instance(id = new_resource.id, skip_final_snapshot = new_resource.skip_final_snapshot)
         @instance ||= rds.db_instances[id]
         if @instance
-          @instance.delete()
+          if skip_final_snapshot
+            options = {
+              skip_final_snapshot: true
+            }
+          else
+            time = Time.now.to_s
+            theDate = DateTime.parse(time).strftime("%Y%m%d-%H%M")
+            options = {
+              skip_final_snapshot: false,
+              final_db_snapshot_identifier: "#{new_resource.id}-#{theDate}"
+            }
+          end
+          @instance.delete(options=options)
         end
       end
 

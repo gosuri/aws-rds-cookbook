@@ -28,6 +28,7 @@ attribute :port                         , kind_of: Integer
 attribute :preferred_backup_window      , kind_of: String
 attribute :preferred_maintenance_window , kind_of: String
 attribute :publicly_accessible          , kind_of: [TrueClass,FalseClass] , default: false
+attribute :skip_final_snapshot          , kind_of: [TrueClass,FalseClass] , default: false
 attribute :region                       , kind_of: [String,NilClass]      , default: nil
 attribute :tags                         , kind_of: Array
 attribute :vpc_security_group_ids       , kind_of: Array
