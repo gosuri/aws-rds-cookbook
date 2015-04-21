@@ -10,3 +10,4 @@ attribute        'aws_sdk_version', description: "aws-sdk gem version", type: "s
 
 depends 'build-essential'
 supports 'ubuntu'
+supports 'debian'

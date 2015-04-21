@@ -20,6 +20,8 @@
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
+require 'date'
+
 module Overclock
   module Aws
     module RDS
@@ -76,7 +78,7 @@ module Overclock
       end
 
       def rds(key = new_resource.aws_access_key, secret = new_resource.aws_secret_access_key)
-        begin 
+        begin
           require 'aws-sdk'
         rescue LoadError
           Chef::Log.error("Missing gem 'aws-sdk'. Use the default aws-rds recipe to install it first.")
@@ -92,8 +94,27 @@ module Overclock
         end
       end
 
+      def delete_instance(id = new_resource.id, skip_final_snapshot = new_resource.skip_final_snapshot)
+        @instance ||= rds.db_instances[id]
+        if @instance
+          if skip_final_snapshot
+            options = {
+              skip_final_snapshot: true
+            }
+          else
+            time = Time.now.to_s
+            theDate = DateTime.parse(time).strftime("%Y%m%d-%H%M")
+            options = {
+              skip_final_snapshot: false,
+              final_db_snapshot_identifier: "#{new_resource.id}-#{theDate}"
+            }
+          end
+          @instance.delete(options=options)
+        end
+      end
+
       def update_instance(id = new_resource.id)
-        # placeholder for update instance 
+        # placeholder for update instance
       end
 
       def set_node_attrs
@@ -104,13 +125,13 @@ module Overclock
         new_resource.region || determine_region
       end
 
-private
+      private
 
       # Determine the current region or fail gracefully
       def determine_region
         `curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone | grep -Po "(us|sa|eu|ap)-(north|south)?(east|west)?-[0-9]+"`.strip
       rescue
-        nil
+        new_resource.region
       end
 
       def serialize_attrs
