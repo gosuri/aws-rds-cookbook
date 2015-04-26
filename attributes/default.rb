@@ -24,4 +24,4 @@
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
-default[:aws_sdk_version] = "1.53.0"
+default[:aws_sdk_version] = "1.64.0"
