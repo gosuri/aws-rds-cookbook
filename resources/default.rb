@@ -30,6 +30,7 @@ attribute :preferred_maintenance_window , kind_of: String
 attribute :publicly_accessible          , kind_of: [TrueClass,FalseClass] , default: false
 attribute :skip_final_snapshot          , kind_of: [TrueClass,FalseClass] , default: false
 attribute :region                       , kind_of: [String,NilClass]      , default: nil
+attribute :storage_type                 , kind_of: String
 attribute :tags                         , kind_of: Array
 attribute :vpc_security_group_ids       , kind_of: Array
 attribute :snapshot_id                  , kind_of: [String,NilClass]      , default: nil
