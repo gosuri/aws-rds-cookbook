@@ -40,6 +40,7 @@ The `aws_rds` LWRP manages a RDS instance
 - `preferred_backup_window`: (String) The daily time range during which automated backups are created if automated backups are enabled, as determined by the BackupRetentionPeriod.
 - `preferred_maintenance_window`: (String) The weekly time range (in UTC) during which system maintenance can occur.
 - `publicly_accessible`: (Boolean) Specifies the accessibility options for the DB Instance. A value of true specifies an Internet-facing instance with a publicly resolvable DNS name, which resolves to a public IP address. A value of false specifies an internal instance with a DNS name that resolves to a private IP address. Default: The default behavior varies depending on whether a VPC has been requested or not. The following list shows the default behavior in each case.
+- `storage_type`: (String) Specifies storage type to be associated with the DB Instance. Valid values: standard | gp2 | io1 If you specify io1, you must also include a value for the iops parameter.
 - `tags`: (Array) A list of tags to associate with this DB Instance. For example [{:key => 'bod', :value => "#{DateTime.now.to_s[0..18]}"}
 - - Default VPC: true
 - - VPC: false If no DB subnet group has been specified as part of the request and the PubliclyAccessible value has not been set, the DB instance will be publicly accessible. If a specific DB subnet group has been specified as part of the request and the PubliclyAccessible value has not been set, the DB instance will be private.
